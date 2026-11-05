@@ -88,4 +88,4 @@ Tokens: re-reading context is most of the cost, so what enters context early is 
 
 ## Writing
 
-Applies to answers, docs, comments, ADR banners and commit messages; player-facing fiction follows `.agent/docs/player-text.md` instead. State facts, decisions, constraints and evidence for a reader who did not see the work. Short words, active voice, one fact per sentence. Name types, values and units. No narration, persuasion, figures of speech or invented vocabulary.
+Applies to answers, docs, comments, ADR banners and commit messages. It does not apply to anything the player reads, including UI labels and option context: that follows `.agent/docs/player-text.md` and is written in its own pass by a briefed writer, never inline while coding. State facts, decisions, constraints and evidence for a reader who did not see the work. Short words, active voice, one fact per sentence. Name types, values and units. No narration, persuasion, figures of speech or invented vocabulary.

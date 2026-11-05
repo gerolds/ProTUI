@@ -14,6 +14,16 @@ Give the player the material from which they reach a conclusion. Do not state th
 
 The failure looks like this (the shape, not the content): "Old station. Debts. Nobody comes. You keep it running." Every sentence is a conclusion. Rewrite it as a moment with a person, an object and a cause.
 
+## Do not announce; name plainly, explain in context
+
+The user's correction, repeated across three projects: the writing announced what the player should infer, and the engineering style leaked into fiction.
+
+- Never tell the player what to learn, notice or fear. "Cut stems are already budding again" under a choice to push past growth announces the later regrowth; let the regrowth happen and be seen.
+- Never state a mechanic inside fiction or as a label: "mass slows the way back", "air holds while you decide". Effects, odds and costs go in the plain facts line beside the fiction (see "Lines on screen").
+- Name a thing plainly, by what the people in the world call it: a flare, a line, the collar, foam. The focused item's context text is where the thing is explained, in the world's terms: what it is, who made it, how people use it, what it costs them. That lets the name stay short and the explanation stay diegetic.
+- Interface labels are interface: a heading, a verb, a name. They carry no lessons and no jokes.
+- Write player text in a separate pass from code, by an agent briefed with this guide and the world sources, never inline while coding. A reviewer checks every line against this section before the user sees it.
+
 ## John Scalzi: people under pressure, plainly told
 
 - Common words, contractions and human friction. The reader needs no genre vocabulary to follow ([Lightspeed interview][lightspeed]).
