@@ -1,25 +1,26 @@
 # Checkpoint
 
 ## Goal
-Template instance: no game yet. Waiting for the user's design in `design/treatment.md`.
+Prototype the part of an excavation game that happens between expeditions (progress, narrative, upgrades, economy, motivation) and an abstraction of one expedition (bars, event slots, dice, steering choices) to find what makes expedition decisions interesting. Source: `design/treatment.md`.
 
 ## State
-- Host `crates/prototype`: event loop (idle blocks; ~33 ms frames only while animating), one key table, strict versioned settings (`<data>/settings.toml` v1: cell_aspect, renderer octant|quadrant|ascii, volumes, mute), first-start setup screen with live circle/square aspect check, sample lit place preview, sound checks; audio via manifest with hot reload; `--keys`, `--bench`, `--smoke`, `--log-sounds`, `--version` (commit stamp).
-- Media crates: `terminal-graphics` (encode, stills, Sketch, calibration, tint cache, PNG/APNG capture, optional `sixel`), `terminal-tilemap` (ASCII + legend → lit place or raw view, `[markers]`), `terminal-audio` (manifest, variations, layers, reload, synth kit, offline render). Samples: `assets/samples/place.toml`, `assets/audio/` (LFS WAVs).
-- Guidance: `AGENTS.md`, `.agent/docs/` (index `README.md`; rows marked *reference* are findings from other projects, not design), `.claude/` skills and review roles, `tools/` (wt-capture, art generator, token-report). `.omp/config.yml` hides Unity plugin skills.
-- Dev profile: deps opt 3, pixel crates opt 2, line tables only.
+- Experiment 1 (`design/iteration.md`): throwaway `scratch/meta-loop` (git-ignored, own `[workspace]`, shares `target/`). Tender + dive + report screens, headless bots that read only the screen. Hook, formula mapping and all numbers are agent candidates.
+- Host `crates/prototype` and media crates unchanged from the template.
 
 ## Constraints
-- Bones and guidance come from the Company prototype; no Company or Runner design is imported.
+- Not a management game; solo; several small zero-g asteroid levels with a hard shell the drop pod pierces.
+- The real game stores all progression as token counts in inventories; any contract we promote later must map to that.
+- QuestSystem (PactSystem) and menu source are available from the user on request, for vocabulary.
 
 ## Open
-- Setup screen volume bars render oddly beside the selection backing; cosmetic.
-- Place preview crops at ≤120 columns (tilemap floor of 2 cells per tile).
+- User playtest of experiment 1.
+- Self-play gate failures: next purchase 60–120 s away; 20–29 s quiet returns; Lantern unreached in 5 min.
+- Dive layout needs about 110×34; it crops at 80×24.
 
 ## Next
-Get `design/treatment.md` from the user. Then read `.agent/docs/playable-first.md` and pass its gates: hook, formula mapping, a playable throwaway in `scratch/`, agent self-play with measures, then the user's playtest. Create `design/iteration.md` at the first experiment.
+User plays `scratch\meta-loop\play.cmd`; record the report in `design/iteration.md` before interpreting it. Then tune or branch per the user's answer.
 
 ## Last verification
-2026-11-05: `verify.cmd` pass (fmt, clippy -D warnings, all tests, smoke), ~22 s warm after the first build. Real Windows Terminal capture of first-start setup at 120x40: octants, round circle at 2.00, sample place lit, corner `v0.1.0 · 21 fps`. Not verified: sound output, keyboard input in the real terminal, other terminals and fonts.
+2026-11-05: `scratch/meta-loop` builds; 12 bot runs (naive/bold × 6 seeds) as tabled in `design/iteration.md`; real Windows Terminal captures at 110×32 of a dive and a hollow card (colours and dim text read on the default profile). Not verified: keyboard input in a real terminal, sound (none), other fonts. `verify.cmd` not run: no workspace code changed.
 
 HEAD: see `git log -1 main`.
