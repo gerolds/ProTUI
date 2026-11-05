@@ -1,0 +1,21 @@
+# Rust build output
+/target/
+**/target/
+
+# Local editor state
+/.idea/
+/.vscode/
+*.swp
+*.swo
+*~
+
+# Generated output and disposable experiments
+/build/
+/dist/
+/captures/
+/scratch/
+
+# Operating-system metadata
+.DS_Store
+Thumbs.db
+Desktop.ini

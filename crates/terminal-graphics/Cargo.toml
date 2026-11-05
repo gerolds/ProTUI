@@ -1,0 +1,24 @@
+[package]
+name = "terminal-graphics"
+version = "0.1.0"
+edition.workspace = true
+publish = false
+
+[features]
+default = []
+capture = ["dep:ab_glyph"]
+# Sixel encoder and the Ratatui seam that places sixel images in cell rects.
+sixel = []
+
+[dependencies]
+ratatui.workspace = true
+png.workspace = true
+tiny-skia.workspace = true
+ab_glyph = { workspace = true, optional = true }
+
+[dev-dependencies]
+# Tests, clippy and the preview example build the capture and sixel code without extra flags.
+terminal-graphics = { path = ".", features = ["capture", "sixel"] }
+
+[lints]
+workspace = true

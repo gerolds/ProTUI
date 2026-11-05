@@ -1,0 +1,34 @@
+# ADR: Virtual workspace; crates under crates/ inherit edition and lints; dependency versions are pinned once here.
+# ADR: Dev/test builds optimise dependencies (opt-level 3) and keep line tables only — warm test runs 3.7 s → 1.6 s, target 859 → 471 MB; a cold build costs 25 → 81 s once per target dir.
+# ADR: terminal-graphics and terminal-tilemap build at opt-level 2 in dev/test — debug lit-place frame 31 → 4.5 ms (budget 33 ms), tilemap tests 1.1 → 0.1 s; their rebuild costs ~5 s instead of ~2 s.
+[workspace]
+members = ["crates/*"]
+resolver = "3"
+
+[workspace.package]
+edition = "2024"
+
+[workspace.dependencies]
+ratatui = { version = "=0.30.2", default-features = false, features = ["crossterm_0_29"] }
+png = "=0.18.1"
+ab_glyph = "=0.2.32"
+tiny-skia = "=0.12.0"
+kira = { version = "=0.12.6", default-features = false, features = ["cpal"] }
+hound = "=3.5.1"
+serde = { version = "=1.0.229", features = ["derive"] }
+toml = "=1.1.8"
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+
+[profile.dev]
+debug = "line-tables-only"
+
+[profile.dev.package."*"]
+opt-level = 3
+
+[profile.dev.package.terminal-tilemap]
+opt-level = 2
+
+[profile.dev.package.terminal-graphics]
+opt-level = 2

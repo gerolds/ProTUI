@@ -1,0 +1,70 @@
+# Sample sounds written by `cargo run -p terminal-audio --example make_sounds -- assets/audio`.
+# Each entry's comment says what the sound is like and how long it is.
+
+[mix]
+max_voices = 16
+
+[bus.ui]
+volume_db = -6.0
+
+[bus.ambience]
+volume_db = -12.0
+
+[bus.music]
+volume_db = -10.0
+
+# While ui/confirm or ui/error plays, the music dips.
+[duck]
+bus = "music"
+by_db = -5.0
+attack_ms = 30
+release_ms = 400
+
+# A soft short tick, 60 ms; three slightly different variations.
+[cue."ui/move"]
+bus = "ui"
+files = ["ui-move-1.wav", "ui-move-2.wav", "ui-move-3.wav"]
+pick = "shuffle"
+volume_jitter_db = 1.5
+pitch_jitter_semitones = 0.5
+cooldown_ms = 25
+max_instances = 3
+steal = "oldest"
+
+# Two rising bell tones, 0.4 s.
+[cue."ui/confirm"]
+bus = "ui"
+files = ["ui-confirm.wav"]
+max_instances = 1
+steal = "oldest"
+duck = true
+
+# Two falling plucked tones, 0.25 s.
+[cue."ui/back"]
+bus = "ui"
+files = ["ui-back.wav"]
+volume_db = -2.0
+max_instances = 1
+steal = "oldest"
+
+# Two low muted buzzes, 0.26 s.
+[cue."ui/error"]
+bus = "ui"
+files = ["ui-error.wav"]
+cooldown_ms = 150
+max_instances = 1
+duck = true
+
+# Quiet filtered air with a faint hiss, a 20 s seamless loop.
+[cue."ambience/room-tone"]
+bus = "ambience"
+files = ["room-tone.wav"]
+loop = true
+fade_ms = 1500
+
+# A calm open-fifth pad that swells slowly, a 30 s seamless loop.
+[cue."music/drone"]
+bus = "music"
+files = ["drone.wav"]
+loop = true
+fade_ms = 2500

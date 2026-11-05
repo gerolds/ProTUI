@@ -1,0 +1,23 @@
+[package]
+name = "prototype"
+version = "0.1.0"
+edition.workspace = true
+publish = false
+build = "build.rs"
+
+[dependencies]
+ratatui.workspace = true
+serde.workspace = true
+toml.workspace = true
+terminal-graphics = { path = "../terminal-graphics" }
+terminal-tilemap = { path = "../terminal-tilemap" }
+terminal-audio = { path = "../terminal-audio" }
+# Only for the `Backend` bound of the host's sound state, generic over device and offline output.
+kira.workspace = true
+
+[dev-dependencies]
+# The ignored capture test draws the setup screen to a PNG.
+terminal-graphics = { path = "../terminal-graphics", features = ["capture"] }
+
+[lints]
+workspace = true

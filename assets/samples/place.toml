@@ -1,0 +1,89 @@
+# Neutral sample place for the setup screen's renderer preview: plain test rooms, a stepped
+# room that shows the 45° corner cuts, a few lights and one emissive wall panel.
+seed = 1
+ambient = "#3a4250"
+map = '''
+##############################################
+#............#...........#,,,,,,,,,,,,,,,,,,,#
+#............#...........#,,,,,,,,,,,,,,,,,,,#
+#.....L......#.....L.....#,,,,,,,,C,,,,,,,,,,#
+#............#...........E,,,,,,,,,,,,,,,,,,,#
+#........................,,,,,,,,,,,,,,,,,,,,#
+#............#...........#,,,,,,,,,,,,,,,,,,,#
+######..######...........##,,,,,,,,,,,,,,,,,##
+#=========####...........###,,,,,,,,,,,,,,,###
+#=========####...........####,,,,,,,,,,,,,####
+#====S====####...........#####,,,,,C,,,,,#####
+#=============...........######,,,,,,,,,######
+#=========####.....L.....#######,,,,,,,#######
+#=========####...........########,,,,,########
+##############################################
+'''
+
+# Wall.
+[legend."#"]
+solid = true
+color = "#7a7e84"
+pattern = "noise"
+grain = 0.15
+grain_scale = 3.0
+
+# Wall panel that glows.
+[legend."E"]
+solid = true
+color = "#3c4a58"
+pattern = "flat"
+grain = 0.1
+grain_scale = 1.5
+emissive = "#2a5c8c"
+
+# Tiled floor.
+[legend."."]
+solid = false
+color = "#a8a296"
+pattern = "tiles"
+grain = 0.12
+grain_scale = 2.0
+
+# Board floor.
+[legend."="]
+solid = false
+color = "#8c7258"
+pattern = "planks"
+grain = 0.2
+grain_scale = 2.0
+
+# Plain floor.
+[legend.","]
+solid = false
+color = "#8a908a"
+pattern = "noise"
+grain = 0.25
+grain_scale = 4.0
+
+# Warm flickering light on tiled floor.
+[legend."L"]
+solid = false
+color = "#a8a296"
+pattern = "tiles"
+grain = 0.12
+grain_scale = 2.0
+light = { color = "#ffd8a8", radius = 7.0, intensity = 2.2, flicker = 0.15, glow = 1.6 }
+
+# Steady cool light on plain floor.
+[legend."C"]
+solid = false
+color = "#8a908a"
+pattern = "noise"
+grain = 0.25
+grain_scale = 4.0
+light = { color = "#b0ccff", radius = 6.0, intensity = 1.8, flicker = 0.0, glow = 1.2 }
+
+# Steady neutral light on board floor.
+[legend."S"]
+solid = false
+color = "#8c7258"
+pattern = "planks"
+grain = 0.2
+grain_scale = 2.0
+light = { color = "#fff2e0", radius = 5.0, intensity = 1.6, flicker = 0.0, glow = 1.0 }
