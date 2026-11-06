@@ -90,7 +90,8 @@ seam: add one, or leave the case to a contract test and say so.
 
 ## Running tests from scripts
 
-- One script (`verify.cmd`) runs the checks every session uses. Never edit it while another session may run it.
+- One check runs every session: `verify.cmd` on Windows, `verify.sh` on macOS and Linux. Change both together so
+  they run the same steps. Never edit them while another session may run them.
 - Never put cleanup after `;` where it runs when the step before it failed. In a `&&` chain, a pipe takes the exit
   status of its last command ([common-issues.md](../common-issues.md)).
 - On Windows, strip CR from lines a Python step prints to bash (`line=${line%$'\r'}`).

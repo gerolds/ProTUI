@@ -34,7 +34,7 @@ pub const FRAME: Duration = Duration::from_millis(33);
 fn main() -> ExitCode {
     let command = match cli::parse(
         env::args_os().skip(1),
-        env::var_os("LOCALAPPDATA"),
+        cli::data_home(),
         Path::new(env!("CARGO_MANIFEST_DIR")),
     ) {
         Ok(command) => command,

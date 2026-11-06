@@ -1,5 +1,5 @@
 // ADR: Options are parsed strictly at entry: an unknown, repeated or misplaced option is an error; --help and --version stand alone, --smoke and --bench take only --assets, and --data, --assets, --keys and --log-sounds belong to the interactive run.
-// ADR: --keys presses keys at set milliseconds after start through the key table (for captures); --data defaults to %LOCALAPPDATA%\Protui; --assets defaults to the nearest ancestor of the crate with `assets/`.
+// ADR: --keys presses keys at set milliseconds after start through the key table (for captures); --data defaults to Protui in the platform's data folder (`data_home`); --assets defaults to the nearest ancestor of the crate with `assets/`.
 use std::ffi::OsString;
 use std::fmt;
 use std::path::{Path, PathBuf};
@@ -15,7 +15,9 @@ Usage:
   prototype --help | --version
 
   (no mode)          Open the full-screen program; stdin and stdout must be terminals.
-  --data <dir>       Folder for settings.toml (default %LOCALAPPDATA%\\Protui).
+  --data <dir>       Folder for settings.toml (default: Protui in %LOCALAPPDATA% on
+                     Windows, ~/Library/Application Support on macOS, else
+                     $XDG_DATA_HOME or ~/.local/share).
   --assets <dir>     Assets folder holding samples/place.toml (default: nearest
                      ancestor of the crate holding assets/).
   --keys <list>      Press keys at milliseconds after start, e.g. 500:down,900:enter.
@@ -75,11 +77,29 @@ fn error(message: impl Into<String>) -> CliError {
     CliError(message.into())
 }
 
-/// Parses `args` (without the program name). `local_app_data` is `%LOCALAPPDATA%`;
+/// The platform's folder for per-user program data: `%LOCALAPPDATA%` on Windows,
+/// `~/Library/Application Support` on macOS, else `$XDG_DATA_HOME` or `~/.local/share`.
+/// `None` when the variable it starts from is unset or empty.
+pub fn data_home() -> Option<PathBuf> {
+    let var = |name: &str| {
+        std::env::var_os(name)
+            .filter(|v| !v.is_empty())
+            .map(PathBuf::from)
+    };
+    if cfg!(windows) {
+        var("LOCALAPPDATA")
+    } else if cfg!(target_os = "macos") {
+        var("HOME").map(|home| home.join("Library/Application Support"))
+    } else {
+        var("XDG_DATA_HOME").or_else(|| var("HOME").map(|home| home.join(".local/share")))
+    }
+}
+
+/// Parses `args` (without the program name). `data_home` is the result of [`data_home`];
 /// `manifest_dir` is where the default assets search starts.
 pub fn parse(
     args: impl IntoIterator<Item = OsString>,
-    local_app_data: Option<OsString>,
+    data_home: Option<PathBuf>,
     manifest_dir: &Path,
 ) -> Result<Command, CliError> {
     let mut mode: Option<(&'static str, Command)> = None;
@@ -172,11 +192,11 @@ pub fn parse(
         None => {
             let data = match data {
                 Some(dir) => dir,
-                None => PathBuf::from(
-                    local_app_data
-                        .ok_or_else(|| error("LOCALAPPDATA is not set; pass --data <dir>"))?,
-                )
-                .join("Protui"),
+                None => data_home
+                    .ok_or_else(|| {
+                        error("no data folder (LOCALAPPDATA or HOME is not set); pass --data <dir>")
+                    })?
+                    .join("Protui"),
             };
             Ok(Command::Run(RunOptions {
                 data,
@@ -266,7 +286,7 @@ mod tests {
     fn run(args: &[&str]) -> Result<Command, CliError> {
         parse(
             args.iter().map(OsString::from),
-            Some(OsString::from("C:/local")),
+            Some(PathBuf::from("C:/local")),
             Path::new("/nonexistent/prototype"),
         )
     }
@@ -314,7 +334,7 @@ mod tests {
         }
         assert!(
             parse(Vec::<OsString>::new(), None, Path::new(".")).is_err(),
-            "no LOCALAPPDATA and no --data"
+            "no data folder and no --data"
         );
     }
 

@@ -73,7 +73,7 @@ Tokens: re-reading context is most of the cost, so what enters context early is 
 
 ## Verify and hand off
 
-- After integration run `verify.cmd`: fmt check, Clippy with denied warnings, tests, headless smoke. For terminal changes also run the real terminal path (`play.cmd`, or `tools/wt-capture.ps1` for a screenshot) and report what was not verified: font, colour, keyboard, sound, cleanup.
+- After integration run `verify.cmd` (`./verify.sh` on macOS and Linux): fmt check, Clippy with denied warnings, tests, headless smoke. For terminal changes also run the real terminal path (`play.cmd` or `./play.sh`, or `tools/wt-capture.ps1` for a screenshot) and report what was not verified: font, colour, keyboard, sound, cleanup.
 - Tests are deterministic and cover behavior and boundaries, not wording, wiring or mock echoes. Fix contracts; do not weaken assertions.
 - Update affected docs, remove probes, commit verified increments with terse messages.
 - The lead keeps `.agent/checkpoint.md` under 50 lines: goal, constraints, open work, next action, last verification, HEAD. Update it at milestones and handoff.

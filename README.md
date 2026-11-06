@@ -8,7 +8,7 @@ Agents start at [AGENTS.md](AGENTS.md) and [.agent/checkpoint.md](.agent/checkpo
 1. Copy the folder without `.git/` and `target/`. Then run `git init -b main` and `git lfs install --local`.
 2. Choose a project name. Replace every `Protui` in the repository: `play.cmd` (`APP_NAME`), `crates/prototype/src/cli.rs` (help text, default data folder and its test), `crates/prototype/src/ui.rs` (`TITLE`), `crates/prototype/README.md` and this file.
 3. Put the user's design in `design/treatment.md`. Optional: `design/steering.md` for later requirements.
-4. Run `verify.cmd`, then commit.
+4. Run `verify.cmd` (macOS and Linux: `./verify.sh`), then commit.
 5. Write the goal in `.agent/checkpoint.md`.
 
 ## Run
@@ -22,11 +22,20 @@ verify.cmd         rem fmt check, clippy -D warnings, tests, headless smoke
 
 `play.cmd` builds into `%LOCALAPPDATA%\Protui\cargo-play\<repo-hash>\`, outside the repository, so a running game does not block other Cargo builds. It passes `--assets` and forwards other arguments (`play.cmd --help`).
 
+On macOS and Linux, run the POSIX sh scripts from `sh`, `bash` or `zsh`. Requirements: stable Rust, Git and Git LFS. A Linux build also needs the ALSA headers and `pkg-config` for sound (`libasound2-dev pkg-config` on Debian and Ubuntu).
+
+```sh
+./play.sh          # build release and play; forwards arguments
+./verify.sh        # fmt check, clippy -D warnings, tests, headless smoke
+```
+
+`play.sh` builds into the repository's `target/`, because only Windows locks a running executable.
+
 Host options (`cargo run --locked -p prototype -- <option>`):
 
 | Option | Effect |
 |---|---|
-| `--data <dir>` | settings and saves folder; default `%LOCALAPPDATA%\Protui` |
+| `--data <dir>` | settings and saves folder; default `Protui` in `%LOCALAPPDATA%` (Windows), `~/Library/Application Support` (macOS), `$XDG_DATA_HOME` or `~/.local/share` (Linux) |
 | `--assets <dir>` | content folder; default: the repository's `assets/` |
 | `--keys <ms>:<key>,...` | scripted key presses through the key table, for captures |
 | `--log-sounds <file>` | one line per sound request: time, cue, outcome, whether a device is open |

@@ -43,7 +43,7 @@ It has no game yet: after setup it shows a home screen that says so.
 
 ```text
 cargo run -p prototype                       # full screen; needs a terminal
-cargo run -p prototype -- --data <dir>       # settings elsewhere (default %LOCALAPPDATA%\Protui)
+cargo run -p prototype -- --data <dir>       # settings elsewhere (default: Protui in the platform's data folder)
 cargo run -p prototype -- --assets <dir>     # default: nearest ancestor with assets/
 cargo run -p prototype -- --keys 500:down,900:enter   # scripted presses, ms after start
 cargo run -p prototype -- --log-sounds sounds.log     # one line per sound request
