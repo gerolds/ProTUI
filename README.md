@@ -1,5 +1,4 @@
-# Protui
-
+# ProTUI
 A template for game prototypes played as a full-screen terminal UI, in Rust with Ratatui. Each copy prototypes one game. The game's design goes in [design/](design/README.md) and is owned by the user. This repository holds generic bones for building it fast: a terminal host, octant image encoding, ASCII-authored lit place views, sound, capture tools and agent guidance. No game rules exist yet.
 
 Agents start at [AGENTS.md](AGENTS.md) and [.agent/checkpoint.md](.agent/checkpoint.md).
